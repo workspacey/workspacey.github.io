@@ -20,27 +20,42 @@ var xmlns = "http://www.w3.org/2000/svg",
 
     function move(){
       var temperature = document.getElementById('temperature');
+      var last = liquid.value;
       if(temperature.value < 1){
          window.alert("Enter Temperature Please");
-    } else if (temperature.value> 1){
+    } else if (temperature.value >= 1 && temperature.value<=120 && step == 360/120){
           liquidId = temperature.value;
           label.textContent = liquidId + '°';
-          TweenMax.set(dragger, { y: (-liquidId * step) });
-          TweenMax.to(liquid, 1.3, {
+              TweenMax.to(liquid, 2.0, {
               y:(-liquidId * step) * 1.12,
-              ease:Elastic.easeOut.config(1,0.4)
+              ease:Elastic.easeOut.config(1,2)
         })
-      }
+              TweenMax.to(dragger, 2.0, {
+                y:(-liquidId * step) * 1.12,
+                ease:Elastic.easeOut.config(1,2)
+      })
+    }if (temperature.value >= 1 && temperature.value<=248 && step == 360/248){
+            liquidId = temperature.value;
+            label.textContent = liquidId + '°';
+            TweenMax.to(liquid, 2.0, {
+                y:(-liquidId * step) * 1.12,
+                ease:Elastic.easeOut.config(1,2)
+          })
+            TweenMax.to(dragger, 2.0, {
+                y:(-liquidId * step) * 1.12,
+                ease:Elastic.easeOut.config(1,2)
+        })
+        }
     }
     function changeT(){
       var temperature = document.getElementById('temperature');
       if(temperature.value < 1){
          window.alert("Enter Temperature Please");}else{
-      if(step==360/120){
+      if(step==360/120 && temperature.value<=248){
         step = 360 / 248;
         document.getElementById("Type").innerHTML = "F°";
         move();
-      } else if(step ==360/248){
+      } else if(step ==360/248 && temperature.value<=120){
         step = 360 / 120;
         document.getElementById("Type").innerHTML = "C°";
         move();
@@ -56,7 +71,8 @@ TweenMax.set(dragTip, {
 })
 
 var tl = new TimelineMax()
-tl.staggerTo(liquid, 0.7, {
+var movement;
+tl.staggerTo(liquid, 3.9, {
  x:'-=200',
  ease:Linear.easeNone,
  repeat:-1
@@ -83,11 +99,11 @@ Draggable.create(dragger, {
 
 function onUpdate(){
  liquidId = Math.abs(Math.round(dragger._gsTransform.y/step));
-
+ movement = temperature.value*0.007;
  label.textContent = liquidId + '°';
  TweenMax.to(liquid, 1.3, {
   y:dragger._gsTransform.y*1.12,
-  ease:Elastic.easeOut.config(1,0.4)
+  ease:Elastic.easeOut.config(1,2)
  })
 
 }
