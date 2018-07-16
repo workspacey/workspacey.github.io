@@ -17,10 +17,9 @@ var xmlns = "http://www.w3.org/2000/svg",
     step = Math.abs(minDragY/120),
     snap = Math.abs(minDragY/10),
     followerVY = 0
-
+var movement;
     function move(){
       var temperature = document.getElementById('temperature');
-      var last = liquid.value;
       if(temperature.value < 1){
          window.alert("Enter Temperature Please");
     } else if (temperature.value >= 1 && temperature.value<=120 && step == 360/120){
@@ -71,8 +70,7 @@ TweenMax.set(dragTip, {
 })
 
 var tl = new TimelineMax()
-var movement;
-tl.staggerTo(liquid, 3.9, {
+tl.staggerTo(liquid, 4.7, {
  x:'-=200',
  ease:Linear.easeNone,
  repeat:-1
@@ -99,7 +97,6 @@ Draggable.create(dragger, {
 
 function onUpdate(){
  liquidId = Math.abs(Math.round(dragger._gsTransform.y/step));
- movement = temperature.value*0.007;
  label.textContent = liquidId + '°';
  TweenMax.to(liquid, 1.3, {
   y:dragger._gsTransform.y*1.12,
